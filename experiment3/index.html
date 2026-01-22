@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+    --bg: #0b1220;
+    --card: #111a2b;
+    --text: #ffffff;
+    --border: rgba(255,255,255,0.15);
+}
+
+body.light {
+    --bg: #f2f2f2;
+    --card: #ffffff;
+    --text: #000000;
+    --border: rgba(0,0,0,0.15);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* GRID LAYOUT */
+.dashboard {
+    display: grid;
+    grid-template-columns: 260px 1fr 1fr 1fr;
+    grid-template-rows: 80px 1fr;
+    grid-template-areas:
+        "header header header header"
+        "sidebar analytics users settings";
+    gap: 20px;
+    padding: 20px;
+}
+
+/* HEADER */
+.header {
+    grid-area: header;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* SIDEBAR */
+.sidebar {
+    grid-area: sidebar;
+}
+
+/* CARDS */
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 28px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* GRID AREAS */
+.analytics { grid-area: analytics; }
+.users { grid-area: users; }
+.settings { grid-area: settings; }
+
+/* BUTTON */
+.toggle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "analytics"
+            "users"
+            "settings";
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+        <button class="toggle-btn" onclick="toggleTheme()">🌙 Toggle Mode</button>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="card sidebar">Navigation</div>
+
+    <!-- MAIN CARDS -->
+    <div class="card analytics">Analytics</div>
+    <div class="card users">Users</div>
+    <div class="card settings">Settings</div>
+
+</div>
+
+<script>
+const body = document.body;
+
+/* Load saved theme */
+if (localStorage.getItem("theme") === "light") {
+    body.classList.add("light");
+}
+
+/* Toggle function */
+function toggleTheme() {
+    body.classList.toggle("light");
+
+    if (body.classList.contains("light")) {
+        localStorage.setItem("theme", "light");
+    } else {
+        localStorage.setItem("theme", "dark");
+    }
+}
+</script>
+
+</body>
+</html>

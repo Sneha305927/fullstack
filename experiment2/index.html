@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Responsive Banking UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            width: 420px;
+            max-width: 95%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 6px;
+            border: 2px solid #ccc;
+            outline: none;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            font-size: 22px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .deposit {
+            background: linear-gradient(to right, #0d6efd, #1e90ff);
+        }
+
+        .withdraw {
+            background: linear-gradient(to right, #ff3b3b, #ff0000);
+        }
+
+        .message {
+            margin-top: 25px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        /* Responsive for small screens */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            button {
+                font-size: 18px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Balance: $<span id="balance">1000</span></h1>
+
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" placeholder="Enter amount">
+
+        <div class="buttons">
+            <button class="deposit" onclick="deposit()">Deposit</button>
+            <button class="withdraw" onclick="withdraw()">Withdraw</button>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        let balance = 1000;
+
+        const balanceSpan = document.getElementById("balance");
+        const amountInput = document.getElementById("amount");
+        const messageDiv = document.getElementById("message");
+
+        function deposit() {
+            const amount = Number(amountInput.value);
+
+            if (amount <= 0 || isNaN(amount)) {
+                showMessage("Invalid amount!", "error");
+                return;
+            }
+
+            balance += amount;
+            updateBalance();
+            showMessage("Deposit successful!", "success");
+            amountInput.value = "";
+        }
+
+        function withdraw() {
+            const amount = Number(amountInput.value);
+
+            if (amount <= 0 || isNaN(amount)) {
+                showMessage("Invalid amount!", "error");
+                return;
+            }
+
+            if (amount > balance) {
+                showMessage("Insufficient balance!", "error");
+                return;
+            }
+
+            balance -= amount;
+            updateBalance();
+            showMessage("Withdrawal successful!", "success");
+            amountInput.value = "";
+        }
+
+        function updateBalance() {
+            balanceSpan.textContent = balance;
+        }
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = "message " + type;
+        }
+    </script>
+
+</body>
+</html>
